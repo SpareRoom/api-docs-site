@@ -19,7 +19,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext js,jsx",
-    "ci": "yarn lint && yarn build"
+    "ci": "yarn lint --max-warnings 0 && yarn build"
   },
   "devDependencies": {
     "eslint": "^4.0.0",
