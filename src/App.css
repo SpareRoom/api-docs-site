@@ -1,25 +1,26 @@
 .App {
   text-align: center;
-  /* display: flex; */
-  flex-direction: column;
   overflow: auto;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  animation: App-logo-spin infinite 4s linear;
   border-radius: 100%;
-  height: 80px;
+  height: 40px;
 }
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  padding: 1rem;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: 1.5rem;
+  margin: 0
 }
 
 .App-intro {
