@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   overflow: auto;
 }
@@ -27,6 +27,10 @@
 
 .doc-frame {
   flex-grow: 1
+}
+
+.api-content {
+  overflow: auto
 }
 
 .fullscreen {

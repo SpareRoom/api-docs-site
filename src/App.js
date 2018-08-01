@@ -21,11 +21,12 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to SpareDocs</h1>
+          <Directory onItemClick={url => this.showDoc(url)} />
         </header>
         { docUrl ? 
         <RedocStandalone className="doc-frame border-none" specUrl={docUrl} />
         :
-        <Directory onItemClick={url => this.showDoc(url)} />
+        <p>Select a document to see it here</p>
         }
       </div>
     );
