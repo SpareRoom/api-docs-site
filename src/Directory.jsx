@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { get, startCase } from 'lodash';
+import { func } from 'prop-types';
 
 const fetchDocs = async () => {
   try {
@@ -35,6 +36,12 @@ export default class Directory extends Component {
     this.setState({
       docs: docsList,
     });
+  }
+
+  static get propTypes() {
+    return {
+      onItemClick: func.isRequired,
+    };
   }
 
   get availableDocs() {
