@@ -11,6 +11,7 @@ class App extends Component {
     this.setState({
       docUrl: url
     })
+
   }
 
   render() {
@@ -25,11 +26,13 @@ class App extends Component {
           </span>
           <Directory onItemClick={url => this.showDoc(url)} />
         </header>
-        { docUrl ? 
-        <RedocStandalone className="doc-frame border-none" specUrl={docUrl} />
-        :
-        <p>Select a document to see it here</p>
-        }
+        <div style={{ overflow: 'auto' }}>
+          { docUrl ? 
+          <RedocStandalone className="doc-frame border-none" specUrl={docUrl} />
+          :
+          <p>Select a document to see it here</p>
+          }
+        </div>
       </div>
     );
   }
