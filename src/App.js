@@ -3,7 +3,7 @@ import { RedocStandalone } from 'redoc'
 
 import { Directory } from './Directory'
 
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 class App extends Component {
