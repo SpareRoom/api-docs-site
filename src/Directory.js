@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import { get } from 'lodash'
 
 const fetchDocs = async () => {
-  const res = await fetch('https://us-central1-spareroom-development-tools.cloudfunctions.net/listDocumentation');
+  try {
+    const res = await fetch(process.env.REACT_APP_DOCS_URL);
 
   return res.json();
+  } catch (error) {
+    return [];
+  }
 }
 
 const parseDocText = docText => docText
