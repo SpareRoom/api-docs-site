@@ -19,8 +19,10 @@ class App extends Component {
     return (
       <div className="App fullscreen">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to SpareDocs</h1>
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">SpareDocs</h1>
+          </span>
           <Directory onItemClick={url => this.showDoc(url)} />
         </header>
         { docUrl ? 
