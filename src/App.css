@@ -1,6 +1,8 @@
 .App {
   text-align: center;
   overflow: auto;
+  display: flex;
+  flex-direction: column
 }
 
 .App-logo {
@@ -15,7 +17,8 @@
   color: white;
   display: flex;
   align-items: center;
-  justify-content: space-between
+  justify-content: space-between;
+  flex-shrink: 0
 }
 
 .App-title {
@@ -29,6 +32,10 @@
 
 .doc-frame {
   flex-grow: 1
+}
+
+.content-area {
+  background-color: hsla(0, 0%, 97%, .75)
 }
 
 .api-content {

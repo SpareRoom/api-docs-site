@@ -6,6 +6,9 @@ import Directory from './Directory.jsx';
 import logo from './logo.png';
 import 'semantic-ui-css/semantic.css';
 import './App.css';
+import {
+  Segment, Container,
+} from '../node_modules/semantic-ui-react';
 
 class App extends Component {
   constructor(props) {
@@ -34,13 +37,17 @@ class App extends Component {
           </span>
           <Directory onItemClick={url => this.showDoc(url)} />
         </header>
-        <div style={{ overflow: 'auto' }}>
+        <div className={`${docUrl ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
           { docUrl
-            ? <RedocStandalone className="doc-frame border-none" specUrl={docUrl} />
+            ? <RedocStandalone specUrl={docUrl} />
             : (
-              <p>
-                Select a document to see it here
-              </p>
+              <Container>
+                <Segment style={{ borderRadius: '.25rem', margin: '1rem auto' }}>
+                  <p>
+                    Select a document to see it here
+                  </p>
+                </Segment>
+              </Container>
             )
           }
         </div>
