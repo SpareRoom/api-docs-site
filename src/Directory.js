@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { get } from 'lodash'
+import { get, startCase } from 'lodash'
 
 const fetchDocs = async () => {
   try {
     const res = await fetch(process.env.REACT_APP_DOCS_URL);
-
-  return res.json();
+    
+    return res.json();
   } catch (error) {
     return [];
   }
@@ -70,11 +70,11 @@ export class Directory extends Component {
       <div>
         <select disabled={!docs} value={selectedDoc} onChange={({ target }) => this.setSelectedDoc(target.value)}>
           <option>Choose a doc...</option>
-          { this.availableDocs.map(doc => <option key={doc}>{doc}</option>) }
+          { this.availableDocs.map(doc => <option key={doc} value={doc}>{startCase(doc)}</option>) }
         </select>
         <select disabled={!selectedDoc} value={selectedVersion} onChange={({ target }) => { this.setSelectedVersion(target.value) }}>
           <option>Select version...</option>
-          { this.availableVersions.map(([ text, url ]) => <option key={text} value={url}>{text}</option>) }
+          { this.availableVersions.map(([ text, url ]) => <option key={text} value={url}>{startCase(text)}</option>) }
         </select>
       </div>
     )
