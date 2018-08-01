@@ -9,7 +9,9 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
-    "redoc": "^2.0.0-alpha.30"
+    "redoc": "^2.0.0-alpha.30",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.1"
   },
   "scripts": {
     "start": "react-scripts start",

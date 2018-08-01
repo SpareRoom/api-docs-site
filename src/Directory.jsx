@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { get, startCase } from 'lodash';
 import { func } from 'prop-types';
+import { Select } from '../node_modules/semantic-ui-react';
 
 const fetchDocs = async () => {
   try {
@@ -63,6 +64,8 @@ export default class Directory extends Component {
   }
 
   setSelectedDoc(doc) {
+    console.log('hit', doc);
+
     this.setState({
       selectedDoc: doc,
       selectedVersion: '',
@@ -74,35 +77,26 @@ export default class Directory extends Component {
 
     return (
       <div>
-        <select
+        <Select
+          style={{ marginRight: '.5rem' }}
           disabled={!docs}
           value={selectedDoc}
-          onChange={({ target }) => this.setSelectedDoc(target.value)}
-        >
-          <option>
-            Choose a doc...
-          </option>
-          { this.availableDocs.map(doc => (
-            <option key={doc} value={doc}>
-              {startCase(doc)}
-            </option>
-          )) }
-        </select>
-        <select
+          placeholder="Choose a doc..."
+          onChange={(_, { value: doc }) => this.setSelectedDoc(doc)}
+          options={
+            this.availableDocs.map(doc => ({ key: doc, text: startCase(doc), value: doc }))
+          }
+        />
+        <Select
           disabled={!selectedDoc}
           value={selectedVersion}
-          onChange={({ target }) => { this.setSelectedVersion(target.value); }}
-        >
-          <option>
-
-            Select version...
-          </option>
-          { this.availableVersions.map(([text, url]) => (
-            <option key={text} value={url}>
-              {startCase(text)}
-            </option>
-          )) }
-        </select>
+          placeholder="Select version..."
+          onChange={(_, { value: version }) => { this.setSelectedVersion(version); }}
+          options={
+            this.availableVersions
+              .map(([text, url]) => ({ key: text, text: startCase(text), value: url }))
+          }
+        />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Directory from './Directory.jsx';
 
 import logo from './logo.png';
+import 'semantic-ui-css/semantic.css';
 import './App.css';
 
 class App extends Component {
