@@ -64,8 +64,6 @@ export default class Directory extends Component {
   }
 
   setSelectedDoc(doc) {
-    console.log('hit', doc);
-
     this.setState({
       selectedDoc: doc,
       selectedVersion: '',
