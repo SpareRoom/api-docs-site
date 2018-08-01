@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "mobx": "^5.0.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "redoc": "^2.0.0-alpha.30"
   },
   "scripts": {
     "start": "react-scripts start",
