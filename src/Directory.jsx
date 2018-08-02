@@ -76,7 +76,7 @@ export default class Directory extends Component {
     return (
       <div>
         <Select
-          style={{ marginRight: '.5rem' }}
+          className="m1"
           disabled={!docs}
           value={selectedDoc}
           placeholder="Choose a doc..."
@@ -86,6 +86,7 @@ export default class Directory extends Component {
           }
         />
         <Select
+          className="m1"
           disabled={!selectedDoc}
           value={selectedVersion}
           placeholder="Select version..."

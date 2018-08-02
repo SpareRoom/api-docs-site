@@ -1,14 +1,11 @@
 import { RedocStandalone } from 'redoc';
 import React, { Component } from 'react';
+import { Segment, Container } from 'semantic-ui-react';
 
 import Directory from './Directory.jsx';
 
 import logo from './logo.png';
-import 'semantic-ui-css/semantic.css';
 import './App.css';
-import {
-  Segment, Container,
-} from '../node_modules/semantic-ui-react';
 
 class App extends Component {
   constructor(props) {
@@ -28,12 +25,15 @@ class App extends Component {
 
     return (
       <div className="App fullscreen">
-        <header className="App-header">
-          <span style={{ display: 'flex', alignItems: 'center' }}>
+        <header className="App-header p1">
+          <span className="flex items-center m1">
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">
               SpareDocs
             </h1>
+            <a href="https://www.netlify.com" className="flex">
+              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem', marginLeft: '2rem' }} />
+            </a>
           </span>
           <Directory onItemClick={url => this.showDoc(url)} />
         </header>

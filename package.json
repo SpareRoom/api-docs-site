@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "basscss": "^8.0.4",
     "lodash": "^4.17.10",
     "mobx": "^5.0.3",
     "prop-types": "^15.6.2",
