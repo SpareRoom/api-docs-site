@@ -25,17 +25,21 @@ class App extends Component {
 
     return (
       <div className="App fullscreen">
-        <header className="App-header p1">
-          <span className="flex items-center m1">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">
-              SpareDocs
-            </h1>
+        <header className="App-header">
+          <div className="flex items-center m1 flex-auto justify-between">
+            <div className="flex items-center">
+              <img src={logo} className="App-logo" alt="logo" />
+              <h1 className="App-title">
+                SpareDocs
+              </h1>
+            </div>
             <a href="https://www.netlify.com" className="flex">
               <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem', marginLeft: '2rem' }} />
             </a>
-          </span>
-          <Directory onItemClick={url => this.showDoc(url)} />
+          </div>
+          <div style={{ backgroundColor: '#eee' }}>
+            <Directory onItemClick={url => this.showDoc(url)} />
+          </div>
         </header>
         <div className={`${docUrl ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
           { docUrl

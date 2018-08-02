@@ -14,9 +14,6 @@
 .App-header {
   background-color: #005480;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   flex-shrink: 0
 }
 
@@ -51,6 +48,14 @@
 
 .border-none {
   border: none;
+}
+
+.flex-grow {
+  flex-grow: 1
+}
+
+.no-shrink {
+  flex-shrink: 0
 }
 
 @keyframes App-logo-spin {
