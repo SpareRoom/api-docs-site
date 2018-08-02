@@ -27,14 +27,14 @@ class App extends Component {
       <div className="App fullscreen">
         <header className="App-header">
           <div className="flex items-center m1 flex-auto justify-between">
-            <div className="flex items-center">
+            <div className="mx1 flex items-center">
               <img src={logo} className="App-logo" alt="logo" />
               <h1 className="App-title">
                 SpareDocs
               </h1>
             </div>
             <a href="https://www.netlify.com" className="flex">
-              <img src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem', marginLeft: '2rem' }} />
+              <img className="m1" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem' }} />
             </a>
           </div>
           <div style={{ backgroundColor: '#eee' }}>
