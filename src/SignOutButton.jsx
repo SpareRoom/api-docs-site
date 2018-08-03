@@ -1,4 +1,4 @@
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import React from 'react';
 import loadGoogleApi from './google-api';
 
@@ -9,7 +9,8 @@ const signOut = async () => {
 };
 
 export const SignOutButton = () => (
-  <Button onClick={signOut}>
+  <Button color="linkedin" onClick={signOut}>
+    <Icon name="google" />
     Sign Out
   </Button>
 );
