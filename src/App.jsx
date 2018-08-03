@@ -4,13 +4,13 @@ import Directory from './Directory.jsx';
 import { DocViewer } from './DocViewer.jsx';
 import { GoogleAuthButton } from './GoogleAuthButton.jsx';
 import { ResponsiveMessage } from './ResponsiveMessage.jsx';
+import { SignOutButton } from './SignOutButton.jsx';
 
 import fetchApiDocument from './fetch-document';
 import loadGoogleApi from './google-api';
 
 import logo from './logo.png';
 import './App.css';
-import { SignOutButton } from './SignOutButton';
 
 class App extends Component {
   constructor(props) {
