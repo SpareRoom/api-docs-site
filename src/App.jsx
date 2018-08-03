@@ -6,6 +6,7 @@ import Directory from './Directory.jsx';
 
 import logo from './logo.png';
 import './App.css';
+import { GoogleAuthButton } from './GoogleAuthButton.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -33,9 +34,12 @@ class App extends Component {
                 SpareDocs
               </h1>
             </div>
-            <a href="https://www.netlify.com" className="flex">
-              <img className="m1" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem' }} />
-            </a>
+            <div className="flex items-center">
+              <GoogleAuthButton />
+              <a href="https://www.netlify.com" className="flex">
+                <img className="m1" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem' }} />
+              </a>
+            </div>
           </div>
           <div style={{ backgroundColor: '#eee' }}>
             <Directory onItemClick={url => this.showDoc(url)} />
