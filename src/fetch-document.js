@@ -9,6 +9,12 @@ const fetchApiDocument = async (document, authToken) => {
     },
   });
 
+  if (!res.ok) {
+    const response = await res.text();
+
+    throw new Error(response);
+  }
+
   return res.json();
 };
 

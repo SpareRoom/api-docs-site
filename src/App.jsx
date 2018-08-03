@@ -11,6 +11,35 @@ import loadGoogleApi from './google-api';
 
 import logo from './logo.png';
 import './App.css';
+import { Message } from '../node_modules/semantic-ui-react';
+
+const SignInMessage = () => (
+  <ResponsiveMessage>
+    <p>
+      You must be signed in to view documentation
+    </p>
+    <div className="flex justify-center">
+      <GoogleAuthButton />
+    </div>
+  </ResponsiveMessage>
+);
+
+// eslint-disable-next-line react/prop-types
+const ContentPanel = ({ isAuthorised, error, document }) => {
+  if (!isAuthorised) return <SignInMessage />;
+
+  if (error) {
+    return (
+      <ResponsiveMessage>
+        <Message error>
+          { error }
+        </Message>
+      </ResponsiveMessage>
+    );
+  }
+
+  return <DocViewer doc={document} />;
+};
 
 class App extends Component {
   constructor(props) {
@@ -44,12 +73,13 @@ class App extends Component {
     } catch (error) {
       this.setState({
         document: null,
+        error: error.message,
       });
     }
   }
 
   render() {
-    const { document, isAuthorised } = this.state;
+    const { document, isAuthorised, error } = this.state;
 
     return (
       <div className="App fullscreen">
@@ -73,19 +103,7 @@ class App extends Component {
           </div>
         </header>
         <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
-          { isAuthorised
-            ? <DocViewer doc={document} />
-            : (
-              <ResponsiveMessage>
-                <p>
-                  You must be signed in to view documentation
-                </p>
-                <div className="flex justify-center">
-                  <GoogleAuthButton />
-                </div>
-              </ResponsiveMessage>
-            )
-          }
+          <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
         </div>
       </div>
     );
