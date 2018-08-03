@@ -1,28 +1,54 @@
-import { RedocStandalone } from 'redoc';
 import React, { Component } from 'react';
-import { Segment, Container } from 'semantic-ui-react';
 
 import Directory from './Directory.jsx';
+import { DocViewer } from './DocViewer.jsx';
+import { GoogleAuthButton } from './GoogleAuthButton.jsx';
+
+import fetchApiDocument from './fetch-document';
+import loadGoogleApi from './google-api';
 
 import logo from './logo.png';
 import './App.css';
-import { GoogleAuthButton } from './GoogleAuthButton.jsx';
+import { Message } from '../node_modules/semantic-ui-react';
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
-  }
+    this.state = {
+      isAuthorised: false,
+      document: null,
+    };
 
-  showDoc(url) {
-    this.setState({
-      docUrl: url,
+    loadGoogleApi().then((GoogleApi) => {
+      this.setState({
+        isAuthorised: GoogleApi.isSignedIn(),
+      });
+
+      GoogleApi.listenForSignIn(isAuthorised => this.setState({
+        isAuthorised,
+      }));
     });
   }
 
+  async showDoc(document) {
+    try {
+      const GoogleApi = await loadGoogleApi();
+
+      const doc = await fetchApiDocument(document, GoogleApi.getBearerToken());
+
+      this.setState({
+        document: doc,
+      });
+    } catch (error) {
+      this.setState({
+        document: null,
+      });
+    }
+  }
+
   render() {
-    const { docUrl } = this.state;
+    const { document, isAuthorised } = this.state;
 
     return (
       <div className="App fullscreen">
@@ -42,20 +68,16 @@ class App extends Component {
             </div>
           </div>
           <div style={{ backgroundColor: '#eee' }}>
-            <Directory onItemClick={url => this.showDoc(url)} />
+            <Directory disabled={!isAuthorised} onItemClick={url => this.showDoc(url)} />
           </div>
         </header>
-        <div className={`${docUrl ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
-          { docUrl
-            ? <RedocStandalone specUrl={docUrl} />
+        <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
+          { isAuthorised
+            ? <DocViewer doc={document} />
             : (
-              <Container>
-                <Segment style={{ borderRadius: '.25rem', margin: '1rem auto' }}>
-                  <p>
-                    Select a document to see it here
-                  </p>
-                </Segment>
-              </Container>
+              <Message info>
+                You must be signed in to view documentation
+              </Message>
             )
           }
         </div>

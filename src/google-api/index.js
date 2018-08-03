@@ -14,7 +14,7 @@ const buildApi = (GoogleAuth) => {
 
     if (!currentUser) return '';
 
-    return currentUser.getAuthResponse().auth_token;
+    return currentUser.getAuthResponse().access_token;
   };
 
   return {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get, startCase } from 'lodash';
-import { func } from 'prop-types';
+import { func, bool } from 'prop-types';
 import { Select } from '../node_modules/semantic-ui-react';
 
 const fetchDocs = async () => {
@@ -39,9 +39,16 @@ export default class Directory extends Component {
     });
   }
 
+  static get defaultProps() {
+    return {
+      disabled: false,
+    };
+  }
+
   static get propTypes() {
     return {
       onItemClick: func.isRequired,
+      disabled: bool,
     };
   }
 
@@ -55,12 +62,13 @@ export default class Directory extends Component {
     return get(docs, selectedDoc, []);
   }
 
-  setSelectedVersion(url) {
-    this.setState({ selectedVersion: url });
+  setSelectedVersion(version) {
+    this.setState({ selectedVersion: version });
 
     const { onItemClick } = this.props;
+    const { selectedDoc } = this.state;
 
-    if (onItemClick) onItemClick(url);
+    if (onItemClick) onItemClick(`${selectedDoc}@${version}.json`);
   }
 
   setSelectedDoc(doc) {
@@ -73,11 +81,13 @@ export default class Directory extends Component {
   render() {
     const { docs, selectedDoc, selectedVersion } = this.state || {};
 
+    const { disabled } = this.props;
+
     return (
       <div>
         <Select
           className="m1"
-          disabled={!docs}
+          disabled={disabled || !docs}
           value={selectedDoc}
           placeholder="Choose a doc..."
           onChange={(_, { value: doc }) => this.setSelectedDoc(doc)}
@@ -87,13 +97,13 @@ export default class Directory extends Component {
         />
         <Select
           className="m1"
-          disabled={!selectedDoc}
+          disabled={disabled || !selectedDoc}
           value={selectedVersion}
           placeholder="Select version..."
           onChange={(_, { value: version }) => { this.setSelectedVersion(version); }}
           options={
             this.availableVersions
-              .map(([text, url]) => ({ key: text, text: startCase(text), value: url }))
+              .map(([text]) => ({ key: text, text: startCase(text), value: text }))
           }
         />
       </div>

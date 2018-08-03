@@ -60,14 +60,22 @@ export class GoogleAuthButton extends PureComponent {
     this.onSigninChange(true);
 
     gapi.signin2.render(this.signInId, {
-      onsuccess: GoogleAuthButton.onSignIn,
+      onsuccess: () => this.onSigninChange(true),
     });
   }
 
-  onSigninChange(signedIn) {
+  async onSigninChange(signedIn) {
     this.setState({
       signedIn,
     });
+
+    if (signedIn) {
+      const GoogleApi = await loadGoogleApi();
+
+      GoogleAuthButton.user = GoogleApi.getCurrentUser();
+    } else {
+      GoogleAuthButton.user = null;
+    }
   }
 
   static get user() {
@@ -87,7 +95,6 @@ export class GoogleAuthButton extends PureComponent {
   }
 
   static set user(newUser) {
-    window.user = newUser;
     user = newUser;
   }
 
@@ -97,6 +104,7 @@ export class GoogleAuthButton extends PureComponent {
 
   render() {
     const { signedIn } = this.state;
+
     return (
       <div className="flex items-center">
         <span id={this.signInId} />
