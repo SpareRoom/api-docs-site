@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { get, startCase } from 'lodash';
 import { func, bool } from 'prop-types';
-import { Select } from '../node_modules/semantic-ui-react';
+import { Select, Loader, Dimmer } from 'semantic-ui-react';
 
 const fetchDocs = async () => {
   try {
@@ -19,6 +19,10 @@ const parseDocText = docText => docText
 
 export default class Directory extends Component {
   async componentDidMount() {
+    this.setState({
+      loading: true,
+    });
+
     let docsList = await fetchDocs();
 
     docsList = docsList
@@ -36,6 +40,7 @@ export default class Directory extends Component {
 
     this.setState({
       docs: docsList,
+      loading: false,
     });
   }
 
@@ -79,12 +84,17 @@ export default class Directory extends Component {
   }
 
   render() {
-    const { docs, selectedDoc, selectedVersion } = this.state || {};
+    const {
+      docs, selectedDoc, selectedVersion, loading,
+    } = this.state || {};
 
     const { disabled } = this.props;
 
     return (
-      <div>
+      <div className="relative">
+        <Dimmer active={loading} inverted>
+          <Loader />
+        </Dimmer>
         <Select
           className="m1"
           disabled={disabled || !docs}
