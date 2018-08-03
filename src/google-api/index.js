@@ -6,6 +6,28 @@ const SCOPE = 'https://www.googleapis.com/auth/devstorage.read_only';
 
 const docs = 'https://www.googleapis.com/discovery/v1/apis/storage/v1/rest';
 
+const buildApi = (GoogleAuth) => {
+  const getCurrentUser = () => GoogleAuth.currentUser.get();
+
+  const getBearerToken = () => {
+    const currentUser = getCurrentUser();
+
+    if (!currentUser) return '';
+
+    return currentUser.getAuthResponse().auth_token;
+  };
+
+  return {
+    isSignedIn: () => GoogleAuth.isSignedIn.get(),
+    listenForSignIn: listener => GoogleAuth.isSignedIn.listen(listener),
+    revokeAccess: () => GoogleAuth.disconnect(),
+    signIn: () => GoogleAuth.signIn(),
+    signOut: () => GoogleAuth.signOut(),
+    getBearerToken,
+    getCurrentUser,
+  };
+};
+
 export default memoize(async () => {
   await new Promise((resolve) => {
     gapi.load('client:auth2', resolve);
@@ -20,12 +42,5 @@ export default memoize(async () => {
 
   const GoogleAuth = await gapi.auth2.getAuthInstance();
 
-  return {
-    listenForSignIn: listener => GoogleAuth.isSignedIn.listen(listener),
-    getCurrentUser: () => GoogleAuth.currentUser.get(),
-    signIn: () => GoogleAuth.signIn(),
-    signOut: () => GoogleAuth.signOut(),
-    revokeAccess: () => GoogleAuth.disconnect(),
-    isSignedIn: () => GoogleAuth.isSignedIn.get(),
-  };
+  return buildApi(GoogleAuth);
 });
