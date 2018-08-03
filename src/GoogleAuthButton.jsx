@@ -1,11 +1,6 @@
-import React, { PureComponent, Fragment } from 'react';
-import { Button } from 'semantic-ui-react';
+import React, { PureComponent } from 'react';
 
 import loadGoogleApi from './google-api';
-
-const { gapi } = window;
-
-let user;
 
 function* idGenerator() {
   let nextId = 0;
@@ -17,69 +12,18 @@ function* idGenerator() {
 const generator = idGenerator();
 
 export class GoogleAuthButton extends PureComponent {
-  static async handleAuthClick() {
-    const GoogleApi = await loadGoogleApi();
-
-    if (GoogleApi.isSignedIn()) {
-      // User is authorized and has clicked 'Sign out' button.
-      GoogleApi.signOut();
-    } else {
-      // User is not signed in. Start Google auth flow.
-      GoogleApi.signIn();
-    }
-  }
-
-  static async revokeAccess() {
-    const GoogleApi = await loadGoogleApi();
-
-    GoogleApi.revokeAccess();
-  }
-
-  static async signOut() {
-    const GoogleApi = await loadGoogleApi();
-
-    GoogleApi.signOut();
-  }
-
   constructor(props) {
     super(props);
 
     this.state = {
       id: GoogleAuthButton.getNextId(),
-      signedIn: false,
     };
   }
 
   async componentDidMount() {
     const GoogleApi = await loadGoogleApi();
 
-    GoogleApi.listenForSignIn((signedIn => this.onSigninChange(signedIn)));
-
-    GoogleAuthButton.user = GoogleApi.getCurrentUser();
-
-    this.onSigninChange(true);
-
-    gapi.signin2.render(this.signInId, {
-      onsuccess: () => this.onSigninChange(true),
-    });
-  }
-
-  async onSigninChange(signedIn) {
-    this.setState({
-      signedIn,
-    });
-
-    if (signedIn) {
-      const GoogleApi = await loadGoogleApi();
-
-      GoogleAuthButton.user = GoogleApi.getCurrentUser();
-    } else {
-      GoogleAuthButton.user = null;
-    }
-  }
-
-  static get user() {
-    return user;
+    GoogleApi.renderSigninButton(this.signInId);
   }
 
   get signInId() {
@@ -88,39 +32,12 @@ export class GoogleAuthButton extends PureComponent {
     return `SignInOut${id}`;
   }
 
-  get revokeAccessId() {
-    const { id } = this.state;
-
-    return `RevokeAccess${id}`;
-  }
-
-  static set user(newUser) {
-    user = newUser;
-  }
-
   static getNextId() {
     return generator.next().value;
   }
 
   render() {
-    const { signedIn } = this.state;
-
-    return (
-      <div className="flex items-center">
-        <span id={this.signInId} />
-        { signedIn && (
-          <Fragment>
-            <Button onClick={GoogleAuthButton.signOut}>
-              Sign Out
-            </Button>
-            <Button color="red" className="mx2" id={this.revokeAccessId} onClick={GoogleAuthButton.revokeAccess}>
-              Revoke Access
-            </Button>
-          </Fragment>
-        )
-        }
-      </div>
-    );
+    return <span id={this.signInId} />;
   }
 }
 

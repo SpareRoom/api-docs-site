@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import Directory from './Directory.jsx';
 import { DocViewer } from './DocViewer.jsx';
 import { GoogleAuthButton } from './GoogleAuthButton.jsx';
+import { ResponsiveMessage } from './ResponsiveMessage.jsx';
 
 import fetchApiDocument from './fetch-document';
 import loadGoogleApi from './google-api';
 
 import logo from './logo.png';
 import './App.css';
-import { Message } from '../node_modules/semantic-ui-react';
+import { SignOutButton } from './SignOutButton';
 
 class App extends Component {
   constructor(props) {
@@ -61,7 +62,7 @@ class App extends Component {
               </h1>
             </div>
             <div className="flex items-center">
-              <GoogleAuthButton />
+              { isAuthorised && <SignOutButton /> }
               <a href="https://www.netlify.com" className="flex">
                 <img className="m1" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg" alt="netlify badge" style={{ maxHeight: '2.25rem' }} />
               </a>
@@ -75,9 +76,14 @@ class App extends Component {
           { isAuthorised
             ? <DocViewer doc={document} />
             : (
-              <Message info>
-                You must be signed in to view documentation
-              </Message>
+              <ResponsiveMessage>
+                <p>
+                  You must be signed in to view documentation
+                </p>
+                <div className="flex justify-center">
+                  <GoogleAuthButton />
+                </div>
+              </ResponsiveMessage>
             )
           }
         </div>

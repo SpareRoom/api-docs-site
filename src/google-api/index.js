@@ -25,6 +25,7 @@ const buildApi = (GoogleAuth) => {
     signOut: () => GoogleAuth.signOut(),
     getBearerToken,
     getCurrentUser,
+    renderSigninButton: (id, options) => gapi.signin2.render(id, options),
   };
 };
 

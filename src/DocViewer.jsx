@@ -1,18 +1,15 @@
-import React from 'react';
-import { Container, Segment } from 'semantic-ui-react';
-import { RedocStandalone } from 'redoc';
 import { objectOf } from 'prop-types';
+import React from 'react';
+import { RedocStandalone } from 'redoc';
+
+import { ResponsiveMessage } from './ResponsiveMessage.jsx';
 
 export const DocViewer = ({ doc }) => {
   if (!doc) {
     return (
-      <Container>
-        <Segment style={{ borderRadius: '.25rem', margin: '1rem auto' }}>
-          <p>
-            Select a document to see it here
-          </p>
-        </Segment>
-      </Container>
+      <ResponsiveMessage>
+        Select a document to see it here
+      </ResponsiveMessage>
     );
   }
 
