@@ -4,5 +4,5 @@
 
 [[redirects]]
   from="http://*"
-  to="https:/:splat"
+  to="https://:splat"
   status=301
