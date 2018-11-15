@@ -9,7 +9,7 @@ import 'semantic-ui-css/semantic.css';
 import 'basscss/css/basscss-important.css';
 import './index.css';
 
-// eslint-disable-next-line react/jsx-filename-extension
+/* eslint-disable react/jsx-filename-extension */
 ReactDOM.render((
   <Router><App /></Router>
 ), document.getElementById('root'));

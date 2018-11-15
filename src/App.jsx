@@ -39,7 +39,7 @@ const ContentPanel = ({ isAuthorised, error, document }) => {
     );
   }
 
-  return <DocViewer doc={document}  />;
+  return <DocViewer doc={document} />;
 };
 
 class App extends Component {
@@ -60,18 +60,27 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    if (window.location.pathname.length < 2) return;
+
+    const document = decodeURIComponent(window.location.pathname.replace('/', ''));
+
+    this.showDoc(document, false);
+  }
+
   onSignInChange(isAuthorised) {
+    const { initialDoc } = this.state;
     this.setState({
       isAuthorised,
-    })
+    });
 
-    this.showDoc(this.state.initialDoc);
+    this.showDoc(initialDoc);
   }
 
   async showDoc(document, replaceLocation = true) {
-    if(replaceLocation) {
+    if (replaceLocation) {
       const { history } = this.props;
-  
+
       history.push(`/${encodeURIComponent(document)}`);
     }
 
@@ -89,16 +98,6 @@ class App extends Component {
         error: error.message,
       });
     }
-  }
-
-  
-
-  componentDidMount() {
-    if(window.location.pathname.length < 2) return;
-
-    const document = decodeURIComponent(window.location.pathname.replace('/', ''));
-
-    this.showDoc(document, false);
   }
 
   render() {
@@ -126,11 +125,14 @@ class App extends Component {
           </div>
         </header>
         <Switch>
-          <Route path="/:document" render={() => (
-            <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
-              <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
-            </div>
-          )} />
+          <Route
+            path="/:document"
+            render={() => (
+              <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
+                <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
+              </div>
+            )}
+          />
         </Switch>
       </div>
     );
