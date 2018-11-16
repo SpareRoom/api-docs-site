@@ -42,6 +42,15 @@ export default class Directory extends Component {
       docs: docsList,
       loading: false,
     });
+
+    const { initialDoc } = this.props;
+
+    if (!initialDoc) return;
+
+    const [docName, version] = initialDoc.replace('.json', '').split('@');
+
+    this.setSelectedDoc(docName);
+    this.setSelectedVersion(version, false);
   }
 
   static get defaultProps() {
@@ -67,13 +76,13 @@ export default class Directory extends Component {
     return get(docs, selectedDoc, []);
   }
 
-  setSelectedVersion(version) {
+  setSelectedVersion(version, emit = true) {
     this.setState({ selectedVersion: version });
 
     const { onItemClick } = this.props;
     const { selectedDoc } = this.state;
 
-    if (onItemClick) onItemClick(`${selectedDoc}@${version}.json`);
+    if (emit && onItemClick) onItemClick(`${selectedDoc}@${version}.json`);
   }
 
   setSelectedDoc(doc) {

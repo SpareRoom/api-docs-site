@@ -65,6 +65,10 @@ class App extends Component {
 
     const document = decodeURIComponent(window.location.pathname.replace('/', ''));
 
+    this.setState({
+      initialDoc: document,
+    });
+
     this.showDoc(document, false);
   }
 
@@ -101,7 +105,9 @@ class App extends Component {
   }
 
   render() {
-    const { document, isAuthorised, error } = this.state;
+    const {
+      document, isAuthorised, error, initialDoc,
+    } = this.state;
 
     return (
       <div className="App fullscreen">
@@ -121,7 +127,11 @@ class App extends Component {
             </div>
           </div>
           <div style={{ backgroundColor: '#eee' }}>
-            <Directory disabled={!isAuthorised} onItemClick={url => this.showDoc(url)} />
+            <Directory
+              initialDoc={initialDoc}
+              disabled={!isAuthorised}
+              onItemClick={url => this.showDoc(url)}
+            />
           </div>
         </header>
         <Switch>
