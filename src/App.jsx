@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import Directory from './Directory.jsx';
 import { DocViewer } from './DocViewer.jsx';
@@ -38,7 +39,7 @@ const ContentPanel = ({ isAuthorised, error, document }) => {
     );
   }
 
-  return <DocViewer doc={document} />;
+  return <DocViewer doc={document}  />;
 };
 
 class App extends Component {
@@ -55,13 +56,25 @@ class App extends Component {
         isAuthorised: GoogleApi.isSignedIn(),
       });
 
-      GoogleApi.listenForSignIn(isAuthorised => this.setState({
-        isAuthorised,
-      }));
+      GoogleApi.listenForSignIn(isAuthorised => this.onSignInChange(isAuthorised));
     });
   }
 
-  async showDoc(document) {
+  onSignInChange(isAuthorised) {
+    this.setState({
+      isAuthorised,
+    })
+
+    this.showDoc(this.state.initialDoc);
+  }
+
+  async showDoc(document, replaceLocation = true) {
+    if(replaceLocation) {
+      const { history } = this.props;
+  
+      history.push(`/${encodeURIComponent(document)}`);
+    }
+
     try {
       const GoogleApi = await loadGoogleApi();
 
@@ -76,6 +89,16 @@ class App extends Component {
         error: error.message,
       });
     }
+  }
+
+  
+
+  componentDidMount() {
+    if(window.location.pathname.length < 2) return;
+
+    const document = decodeURIComponent(window.location.pathname.replace('/', ''));
+
+    this.showDoc(document, false);
   }
 
   render() {
@@ -102,12 +125,18 @@ class App extends Component {
             <Directory disabled={!isAuthorised} onItemClick={url => this.showDoc(url)} />
           </div>
         </header>
-        <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
-          <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
-        </div>
+        <Switch>
+          <Route path="/:document" render={() => (
+            <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
+              <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
+            </div>
+          )} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default App;
+const ConnectedApp = withRouter(App);
+
+export default ConnectedApp;
