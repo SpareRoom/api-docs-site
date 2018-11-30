@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import {
+  Route, Switch, withRouter, Redirect,
+} from 'react-router-dom';
 
 import Directory from './Directory.jsx';
 import { DocViewer } from './DocViewer.jsx';
@@ -91,9 +93,12 @@ class App extends Component {
     try {
       const GoogleApi = await loadGoogleApi();
 
+      if (!document) return;
+
       const doc = await fetchApiDocument(document, GoogleApi.getBearerToken());
 
       this.setState({
+        error: null,
         document: doc,
       });
     } catch (error) {
@@ -108,6 +113,12 @@ class App extends Component {
     const {
       document, isAuthorised, error, initialDoc,
     } = this.state;
+
+    const Page = () => (
+      <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
+        <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
+      </div>
+    );
 
     return (
       <div className="App fullscreen">
@@ -135,14 +146,12 @@ class App extends Component {
           </div>
         </header>
         <Switch>
+          <Redirect from="/undefined" to="/" />
           <Route
             path="/:document"
-            render={() => (
-              <div className={`${document ? '' : 'content-area'} doc-frame`} style={{ overflow: 'auto' }}>
-                <ContentPanel isAuthorised={isAuthorised} document={document} error={error} />
-              </div>
-            )}
+            render={Page}
           />
+          <Route path="/" component={Page} />
         </Switch>
       </div>
     );
