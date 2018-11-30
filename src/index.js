@@ -11,7 +11,9 @@ import './index.css';
 
 /* eslint-disable react/jsx-filename-extension */
 ReactDOM.render((
-  <Router><App /></Router>
+  <Router>
+    <App />
+  </Router>
 ), document.getElementById('root'));
 
 unregister();
